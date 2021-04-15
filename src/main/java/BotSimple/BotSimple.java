@@ -8,6 +8,16 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import static Constants.ApiConstants.*;
 
 public class BotSimple extends TelegramLongPollingBot {
+    
+    private TextHandler textHandler;
+
+    public BotSimple() {
+    }
+
+    public BotSimple(TextHandler textHandler) {
+        this.textHandler = textHandler;
+    }
+
     @Override
     public String getBotUsername() {
         return "ForAlisa_bot";
@@ -27,7 +37,8 @@ public class BotSimple extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String msg = update.getMessage().getText();
         String chatId = update.getMessage().getChatId().toString();
-        sendMsg(msg, chatId);
+        String answer = textHandler.handler(msg);
+        sendMsg(answer, chatId);
     }
 
     public void sendMsg(String msg, String chatId) {
